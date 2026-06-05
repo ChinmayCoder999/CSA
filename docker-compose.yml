@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./support_agent.db
+    volumes:
+      # Persist SQLite database file between container restarts
+      - ./support_agent.db:/app/support_agent.db
+      # Optional: mount .env file for secrets (if not using --env-file)
+      # - ./.env:/app/.env
+    restart: unless-stopped
