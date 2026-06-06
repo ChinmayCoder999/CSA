@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from app.api.router import api_router
 from app.middleware.request_tracker import request_tracker_middleware
 from app.core.logging import setup_logging
@@ -17,7 +19,16 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Add middleware
+# CORS Middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Custom middleware
 app.middleware("http")(request_tracker_middleware)
 
 # Include API routes
